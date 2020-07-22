@@ -34,7 +34,7 @@ class Site(models.Model):
         ('B', 'Both')
     }
 
-    dep_id = models.CharField(max_length=255, default='', blank=True)
+    dep_id = models.CharField(max_length=255, default='', blank=True, unique=True)
     mrds_url = models.URLField(max_length=255, default='', blank=True)
     mrds_id = models.CharField(max_length=255, default='', blank=True)
     mas_id = models.CharField(max_length=255, default='', blank=True)
