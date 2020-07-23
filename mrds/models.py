@@ -60,6 +60,7 @@ class Site(models.Model):
     gangue = models.TextField(default='', blank=True)  # Non-economic minerals of the deposit
     other_matl = models.TextField(default='', blank=True)
     orebody_fm = models.TextField(default='', blank=True)
+    work_type = models.ForeignKey(WorkType, null=True, blank=True, on_delete=models.SET_NULL)
     geo_model = models.TextField(default='', blank=True, verbose_name='Model')
     alteration = models.TextField(default='', blank=True)
     conc_proc = models.TextField(default='', blank=True)
