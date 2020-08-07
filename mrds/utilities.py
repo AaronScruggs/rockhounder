@@ -6,7 +6,7 @@ from mrds.models import State
 class MrdsDataImport:
 
     # Fields where CSV column name differs from model name.
-    # ex. {'mrds csv name': 'model name'}
+    # ex. {'mrds csv name': 'model field name'}
     NAME_COLUMN_DIFFS = {
         'url': 'mrds_url',
         'commod1': 'commodity_1',
@@ -47,31 +47,35 @@ class MrdsDataImport:
         obj, is_created = State.objects.get_or_create(name=value)
         return obj.id
 
-    def get_fk_ptr(self, db_key, value):
+    def get_fk_ptr_value(self, db_field_name, csv_value):
+        # Grab the appropriate func and get/create the ptr value for the given fk field 
+        
         # TODO: track existing FK objects for all FK fields to avoid extraneous lookups
-        fk_func = self.fk_func_dict.get(db_key)
+        fk_func = self.fk_func_dict.get(db_field_name)
         if not fk_func:
             return None
 
-        fk_ptr = fk_func(value)
+        fk_ptr = fk_func(csv_value)
         return fk_ptr
 
-    def process_row(self, row):
+    def get_row_db_data(self, row):
+
         # Convert csv field name to database field name
         data = {}
         for key in row.keys():
             if key in self.NAME_COLUMN_DIFFS:
-                db_key = self.NAME_COLUMN_DIFFS[key]
+                db_field_name = self.NAME_COLUMN_DIFFS[key]
             else:
-                db_key = key
-            value = row[key].lower()
-
-            if db_key in self.fk_field_names:
-                fk_ptr = self.get_fk_ptr(db_key, value)
-                db_key_ptr = '{}_id'.format(db_key)
-                data[db_key_ptr] = fk_ptr
+                db_field_name = key
+            csv_value = row[key].lower()
+            
+            if db_field_name in self.fk_field_names:
+                # Get or create ptr value for FK field
+                fk_ptr = self.get_fk_ptr_value(db_field_name, csv_value)
+                db_field_name_ptr = '{}_id'.format(db_field_name)
+                data[db_field_name_ptr] = fk_ptr
             else:
-                data[db_key] = value
+                data[db_field_name] = csv_value
 
         return data
 
