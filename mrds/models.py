@@ -4,26 +4,44 @@ from django.db import models
 class State(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class County(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
     state = models.ForeignKey(State, null=True, blank=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return self.name
+
 
 class Commodity(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class OperationType(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class DevelopmentStatus(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class WorkType(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Site(models.Model):
@@ -83,10 +101,5 @@ class Site(models.Model):
     prod_yrs = models.TextField(default='', blank=True)
     discr = models.TextField(default='', blank=True)
 
-
-
-
-
-
-
-
+    def __str__(self):
+        return '{}({})'.format(self.site_name, self.id)
