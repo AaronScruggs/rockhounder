@@ -1,6 +1,6 @@
 import csv
 
-from mrds.models import State, Commodity, OperationType, DevelopmentStatus, WorkType, County
+from mrds.models import State, Commodity, OperationType, DevelopmentStatus, WorkType, County, Site
 
 
 class MrdsDataImport:
@@ -45,8 +45,15 @@ class MrdsDataImport:
         }
         self.fk_field_names = list(self.fk_func_dict.keys())
 
-    def insert_data(self):
-        pass
+    def process_row_data(self):
+        for row in self.rows:
+            data = self.get_row_db_data(row)
+            dep_id = data.pop('dep_id', None)
+            if dep_id:
+                Site.objects.update_or_create(
+                    dep_id=dep_id,
+                    defaults=data
+                )
 
     def get_state_value(self, csv_value):
         existing_database_value = self.state_name_id_map.get(csv_value)
