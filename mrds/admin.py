@@ -41,5 +41,6 @@ class WorkTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Site)
 class WorkTypeAdmin(admin.ModelAdmin):
-    list_display = ('site_name',)
-    search_fields = ('site_name',)
+    list_display = ('site_name', 'dep_id', 'mrds_id', 'state', 'county', 'commodity_1', 'commodity_2', 'commodity_3')
+    search_fields = ('site_name', 'dep_id', 'mrds_id', 'state__name', 'county__name', 'commodity_1__name',
+                     'commodity_2__name', 'commodity_3__name')
