@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Site Search</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+</head>
+<body>
+
+<div>
+    <div>
+        This is a form that lets you search for stuff
+    </div>
+
+
+    <div>
+        <form method="post" action="{% url 'site_search' %}" class="form" enctype="multipart/form-data">
+            {% for field in form %}
+                <div class="form-field">
+                    {{ field.label }}
+                    {{ field }}
+                </div>
+
+            {% endfor %}
+
+            <button type="submit">Submit</button>
+        {% csrf_token %}
+        </form>
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

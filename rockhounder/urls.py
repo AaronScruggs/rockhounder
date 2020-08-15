@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from mrds.views import SiteSearchView
+
 urlpatterns = [
+    path('site-search/', SiteSearchView.as_view(), name='site_search'),
     path('admin/', admin.site.urls),
 ]
