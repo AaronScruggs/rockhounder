@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import FormView
@@ -67,6 +68,5 @@ class SiteSearchView(FormView):
 
         context_data = self.get_context_data(cleaned_data=cleaned_data)
         return render(self.request, context=context_data, template_name=self.template_name)
-
 
 
