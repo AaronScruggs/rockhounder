@@ -10,8 +10,9 @@
 <body>
 
 <div>
-    <div>
-        This is a form that lets you search for stuff
+    <div id="searchIntro">
+        Search for sites below. All data is from the Mineral Resources Data System. Clicking on 'More Information' on a
+        specific site will direct you to the MRDS information for that site.
     </div>
 
 
@@ -26,10 +27,43 @@
             {% endfor %}
 
             <button type="submit">Submit</button>
-        {% csrf_token %}
+            {% csrf_token %}
         </form>
     </div>
 
+    {% if results_count %}
+        <div id="siteResults">
+            <h4>{{ results_count }} results found</h4>
+            {% if results_count > results_limit %}<h5>(Showing the first {{ results_limit }} only)</h5>{% endif %}
+
+            <ul>
+                {% for site in site_qs %}
+                    <li>
+                        <div>
+                            {{ site.site_name|title }}
+                        </div>
+                        <div>
+                            {{ site.county|title }}, {{ site.state|title }}
+                        </div>
+                        <div>
+                            Primary Commodities: {{ site.commodity_1 }}
+                        </div>
+                        <div>
+                            Secondary Commodities: {{ site.commodity_2 }}
+                        </div>
+                        <div>
+                            Tertiary Commodities: {{ site.commodity_3 }}
+                        </div>
+                        <div>
+                            <a href="{{ site.mrds_url }}" target="_blank">More Information</a>
+                        </div>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    {% endif %}
 
 </div>
 

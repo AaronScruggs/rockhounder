@@ -2,6 +2,17 @@ body {
     background-color: lightgray;
 }
 
+#searchIntro {
+    margin-top: 60px;
+}
+
+#siteResults li {
+    list-style: none;
+    margin: 15px 0 15px 0;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 1px rgb(70, 70, 70);
+}
+
 .form-field {
     margin: 5px 0 5px 0;
 }
