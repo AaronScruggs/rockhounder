@@ -69,4 +69,9 @@ class SiteSearchView(FormView):
         context_data = self.get_context_data(cleaned_data=cleaned_data)
         return render(self.request, context=context_data, template_name=self.template_name)
 
+    def form_invalid(self, form):
+        resp = super().form_invalid(form)
+        return resp
+
+
 

@@ -10,12 +10,6 @@
 <body>
 
 <div id="app">
-    <div>
-        # the part that can be controlled by Vue.JS
-        <p v-on:click="greet">[[ message ]]</p>
-        <button v-on:click="greet">Add 1</button>
-        <p>The button above has been clicked [[ counter ]] times.</p>
-    </div>
 
     <div id="searchIntro">
         Search for sites below. All data is from the Mineral Resources Data System. Clicking on 'More Information' on a
@@ -24,7 +18,8 @@
 
 
     <div>
-        <form method="post" action="{% url 'site_search' %}" class="form" enctype="multipart/form-data" v-on:submit.prevent="submitSiteSearch">
+        <form ref="siteForm" method="post" action="{% url 'site_search' %}" class="form" enctype="multipart/form-data"
+              v-on:submit.prevent="submitSiteSearch">
             {% for field in form %}
                 <div class="form-field">
                     {{ field.label }}
@@ -76,30 +71,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<script>
-  var app = new Vue({
-    el: '#app',
-    delimiters: ['[[', ']]'],
-    data: {
-      message: 'Hello Vue!',
-      counter: 0,
-      name: 'VueApp'
-    },
-    methods: {
-      greet: function (event) {
-        // `this` inside methods points to the Vue instance
-        alert('Hello ' + this.name + '!');
-      },
-      submitSiteSearch: function (event) {
-        debugger;
-        console.log('searching...', event);
-      }
-    }
-
-  })
-</script>
+{#<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>#}
+<script src="{% static 'js/app.js' %}"></script>
 
 </body>
 
