@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 
@@ -46,27 +46,24 @@ class SiteSearchView(FormView):
 
         return filter_kwargs
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['results_limit'] = self.results_limit
+    def get_search_results(self, cleaned_data):
+        filter_kwargs = self.get_filter_kwargs(cleaned_data)
+        site_qs = Site.objects.filter(**filter_kwargs).select_related(
+            'state', 'county', 'commodity_1', 'commodity_2', 'commodity_3')
 
-        cleaned_data = kwargs.pop('cleaned_data', {})
-        if cleaned_data:
-            filter_kwargs = self.get_filter_kwargs(cleaned_data)
-            site_qs = Site.objects.filter(**filter_kwargs)
-
-            results_count = site_qs.count()
-            context_data['results_count'] = results_count
-            context_data['site_qs'] = site_qs[:50].select_related(
-                'state', 'county', 'commodity_1', 'commodity_2', 'commodity_3')
-
-        return context_data
+        return site_qs[:50]
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
 
-        context_data = self.get_context_data(cleaned_data=cleaned_data)
-        return render(self.request, context=context_data, template_name=self.template_name)
+        site_qs = self.get_search_results(cleaned_data)
 
+        data = [
+            {'site_name': x.site_name}
+            for x in site_qs
+        ]
+        return JsonResponse(data, safe=False)
 
-
+    def form_invalid(self, form):
+        resp = super().form_invalid(form)
+        return resp
