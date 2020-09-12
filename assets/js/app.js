@@ -2,9 +2,17 @@ var app = new Vue({
   el: '#app',
   delimiters: ['[[', ']]'],
   data: {
-    searchResults: [
-      {'site_name': 'Search to view results...'},
-    ]
+    searchResults: [],
+    showResultActions: false,
+    currentPage: 0,
+    totalPages: 0,
+    pageSize: 5
+  },
+  filters: {},
+  computed: {
+    prevResultsBtnDisabled: function (){
+      return true;
+    }
   },
   methods: {
     submitSiteSearch: function (ev) {
@@ -17,15 +25,25 @@ var app = new Vue({
         .post(submitUrl, formData)
         .then(res => {
           console.log(res);
-          self.$data.searchResults = res.data;
+          let count = res.data.site_count,
+            siteData = res.data.site_data;
+
+          if (count) {
+            self.$data.showResultActions = true;
+            self.$data.currentPage = 1;
+            self.$data.totalPages = Math.ceil(count / self.$data.pageSize);
+            self.$data.searchResults = siteData.slice(0, self.$data.pageSize);
+          }
 
         })
         .catch(err => {
           console.log(err)
-        })
-      ;
-
+        });
+    },
+    clearSiteSearchResults: function (ev) {
+      this.$data.searchResults = [];
+      this.$data.showResultActions = false;
     }
-  }
+  },
 
 });

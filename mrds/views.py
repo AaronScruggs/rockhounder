@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView
@@ -58,10 +59,15 @@ class SiteSearchView(FormView):
 
         site_qs = self.get_search_results(cleaned_data)
 
-        data = [
-            {'site_name': x.site_name}
+        site_data = [
+            x.to_search_result()
             for x in site_qs
         ]
+        data = {
+            'site_data': site_data,
+            'site_count': site_qs.count()
+        }
+
         return JsonResponse(data, safe=False)
 
     def form_invalid(self, form):

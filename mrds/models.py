@@ -101,5 +101,16 @@ class Site(models.Model):
     prod_yrs = models.TextField(default='', blank=True)
     discr = models.TextField(default='', blank=True)
 
+    def to_search_result(self):
+        return {
+            'site_name': self.site_name,
+            'county': self.county.name,
+            'state': self.state.name,
+            'commodity_1': self.commodity_1.name,
+            'commodity_2': self.commodity_2.name,
+            'commodity_3': self.commodity_3.name,
+            'mrds_url': self.mrds_url
+        }
+
     def __str__(self):
         return '{}({})'.format(self.site_name, self.id)

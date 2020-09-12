@@ -16,3 +16,7 @@ body {
 .form-field {
     margin: 5px 0 5px 0;
 }
+
+.capitalize {
+    text-transform: capitalize;
+}
