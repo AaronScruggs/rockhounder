@@ -6,11 +6,14 @@
     <meta charset="UTF-8">
     <title>Site Search</title>
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.17.0/bootstrap-vue.min.css" rel="stylesheet">
 </head>
 <body>
 
 <div id="app">
-
+  <h2>Example heading <b-badge>New</b-badge></h2>
+<b-badge variant="primary">Primary</b-badge>
     <div id="searchIntro">
         Search for sites below. All data is from the Mineral Resources Data System. Clicking on 'More Information' on a
         specific site will direct you to the MRDS information for that site.
@@ -66,14 +69,19 @@
 
     <div v-show="showResultActions">
         Page [[ currentPage ]] of [[ totalPages ]]
-        <button data-direction="backward" :disabled="prevResultsBtnDisabled" v-on:click.prevent="changeResultsPage">Previous</button>
-        <button data-direction="forward" :disabled="nextResultsBtnDisabled" v-on:click.prevent="changeResultsPage">Next</button>
+        <button data-direction="backward" :disabled="prevResultsBtnDisabled" v-on:click.prevent="changeResultsPage">
+            Previous
+        </button>
+        <button data-direction="forward" :disabled="nextResultsBtnDisabled" v-on:click.prevent="changeResultsPage">
+            Next
+        </button>
     </div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.17.0/bootstrap-vue.min.js"></script>
 <script src="{% static 'js/app.js' %}"></script>
 
 </body>
