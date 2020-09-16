@@ -28,17 +28,14 @@ var app = new Vue({
       axios
         .post(submitUrl, formData)
         .then(res => {
-          console.log(res);
           let count = res.data.site_count,
             siteData = res.data.site_data;
 
-          if (count) {
-            self.$data.allSiteData = siteData;
-            self.$data.showResultActions = true;
-            self.$data.currentPage = 1;
-            self.$data.totalPages = Math.ceil(count / self.$data.pageSize);
-            self.$data.shownSearchResults = siteData.slice(0, self.$data.pageSize);
-          }
+          self.$data.allSiteData = siteData;
+          self.$data.showResultActions = true;
+          self.$data.currentPage = count ? 1 : 0;
+          self.$data.totalPages = Math.ceil(count / self.$data.pageSize);
+          self.$data.shownSearchResults = siteData.slice(0, self.$data.pageSize);
 
         })
         .catch(err => {
