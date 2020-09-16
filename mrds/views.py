@@ -10,7 +10,6 @@ class SiteSearchView(FormView):
     template_name = 'mrds/site_search.html'
     form_class = SiteSearchForm
     success_url = reverse_lazy('site_search')
-    results_limit = 50
 
     @staticmethod
     def get_filter_kwargs(cleaned_data):
@@ -51,17 +50,22 @@ class SiteSearchView(FormView):
         site_qs = Site.objects.filter(**filter_kwargs).select_related(
             'state', 'county', 'commodity_1', 'commodity_2', 'commodity_3')
 
-        return site_qs[:50]
+        return site_qs
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
 
         site_qs = self.get_search_results(cleaned_data)
 
-        data = [
-            {'site_name': x.site_name}
+        site_data = [
+            x.to_search_result()
             for x in site_qs
         ]
+        data = {
+            'site_data': site_data,
+            'site_count': site_qs.count()
+        }
+
         return JsonResponse(data, safe=False)
 
     def form_invalid(self, form):
