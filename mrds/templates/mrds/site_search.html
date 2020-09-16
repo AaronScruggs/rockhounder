@@ -38,7 +38,7 @@
         </button>
         <ul>
 
-            <li v-for="(site, index) in searchResults">
+            <li v-for="(site, index) in shownSearchResults">
                 <div class="capitalize">
                     [[ site.site_name ]]
                 </div>
@@ -66,14 +66,9 @@
 
     <div v-show="showResultActions">
         Page [[ currentPage ]] of [[ totalPages ]]
-        <button :disabled="prevResultsBtnDisabled"></button>
+        <button data-direction="backward" :disabled="prevResultsBtnDisabled" v-on:click.prevent="changeResultsPage">Previous</button>
+        <button data-direction="forward" :disabled="nextResultsBtnDisabled" v-on:click.prevent="changeResultsPage">Next</button>
     </div>
-
-{#    <ul>#}
-{#        <li v-for="(pageNum, index) in totalPages">#}
-{#            [[ pageNum ]]#}
-{#        </li>#}
-{#    </ul>#}
 
 </div>
 
