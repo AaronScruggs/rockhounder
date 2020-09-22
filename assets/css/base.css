@@ -6,11 +6,12 @@ body {
     margin-top: 60px;
 }
 
-#siteResults li {
-    list-style: none;
-    margin: 15px 0 15px 0;
+#siteResults .site {
+
     background-color: whitesmoke;
     box-shadow: 2px 2px 1px rgb(70, 70, 70);
+    width: 350px;
+    margin: 10px 10px 10px 10px;
 }
 
 .form-field {
@@ -19,4 +20,10 @@ body {
 
 .capitalize {
     text-transform: capitalize;
+}
+
+.row {
+    margin: 15px 0 15px 0;
+    display: flex;
+    flex-wrap: wrap;
 }

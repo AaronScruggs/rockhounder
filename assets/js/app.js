@@ -7,15 +7,19 @@ var app = new Vue({
     showResultActions: false,
     currentPage: 0,
     totalPages: 0,
-    pageSize: 20
+    pageSize: 20,
+    itemsPerRow: 4
   },
   filters: {},
   computed: {
-    prevResultsBtnDisabled: function (){
-      return this.$data.currentPage <= 1;
+    prevResultsBtnDisabled: function () {
+      return this.currentPage <= 1;
     },
-    nextResultsBtnDisabled: function (){
-      return this.$data.currentPage >= this.$data.totalPages;
+    nextResultsBtnDisabled: function () {
+      return this.currentPage >= this.totalPages;
+    },
+    rowCount: function () {
+      return Math.ceil(this.shownSearchResults.length / this.itemsPerRow);
     }
   },
   methods: {
@@ -31,11 +35,11 @@ var app = new Vue({
           let count = res.data.site_count,
             siteData = res.data.site_data;
 
-          self.$data.allSiteData = siteData;
-          self.$data.showResultActions = true;
-          self.$data.currentPage = count ? 1 : 0;
-          self.$data.totalPages = Math.ceil(count / self.$data.pageSize);
-          self.$data.shownSearchResults = siteData.slice(0, self.$data.pageSize);
+          self.allSiteData = siteData;
+          self.showResultActions = true;
+          self.currentPage = count ? 1 : 0;
+          self.totalPages = Math.ceil(count / self.pageSize);
+          self.shownSearchResults = siteData.slice(0, self.pageSize);
 
         })
         .catch(err => {
@@ -43,24 +47,26 @@ var app = new Vue({
         });
     },
     clearSiteSearchResults: function (ev) {
-      this.$data.shownSearchResults = [];
-      this.$data.showResultActions = false;
+      this.shownSearchResults = [];
+      this.showResultActions = false;
     },
-    changeResultsPage: function(ev) {
+    changeResultsPage: function (ev) {
       let self = this,
         direction = ev.target.dataset.direction;
 
       if (direction === 'forward') {
-        self.$data.currentPage += 1;
+        self.currentPage += 1;
       } else if (direction === 'backward') {
-        self.$data.currentPage -= 1;
+        self.currentPage -= 1;
       }
 
-      let start = (self.$data.currentPage - 1) * self.$data.pageSize,
-        stop = self.$data.currentPage * self.$data.pageSize;
+      let start = (self.currentPage - 1) * self.pageSize,
+        stop = self.currentPage * self.pageSize;
 
-      self.$data.shownSearchResults = self.$data.allSiteData.slice(start, stop);
-
+      self.shownSearchResults = self.allSiteData.slice(start, stop);
+    },
+    itemCountInRow: function (index) {
+      return this.shownSearchResults.slice((index - 1) * this.itemsPerRow, index * this.itemsPerRow)
     }
   },
 
