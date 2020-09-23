@@ -4,7 +4,7 @@ from mrds.models import Site
 
 
 class SiteSearchForm(ModelForm):
-    str_fields = ('dep_id', 'site_name')
+    str_fields = ('site_name',)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -16,7 +16,7 @@ class SiteSearchForm(ModelForm):
 
     class Meta:
         model = Site
-        fields = ('dep_id', 'site_name', 'county', 'state', 'commodity_1', 'commodity_2', 'commodity_3')
+        fields = ('site_name', 'county', 'state', 'commodity_1', 'commodity_2', 'commodity_3')
         labels = {
             'commodity_1': 'Primary Commodity',
             'commodity_2': 'Secondary Commodity',

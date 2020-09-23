@@ -32,10 +32,21 @@
         </form>
     </div>
 
+
     <div id="siteResults">
         <button class="button" style="margin-top: 10px;" v-on:click.prevent="clearSiteSearchResults"
                 v-show="showResultActions">Clear Results
         </button>
+
+        <div id="customResults" v-show="showResultActions">
+            <div ref="perPage">
+                <select name="per_page" id="id_per_page" v-on:change="updatePageSize">
+                    <option value="20">20</option>
+                    <option value="40" selected="selected">40</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
 
         <div class="row" v-for="i in rowCount">
                 <div class="site column" v-for="site in itemCountInRow(i)">

@@ -3,11 +3,10 @@ var app = new Vue({
   delimiters: ['[[', ']]'],
   data: {
     shownSearchResults: [],
-    allSiteData: [],
+    allSearchResults: [],
     showResultActions: false,
     currentPage: 0,
-    totalPages: 0,
-    pageSize: 20,
+    pageSize: 40,
     itemsPerRow: 4
   },
   filters: {},
@@ -15,12 +14,15 @@ var app = new Vue({
     prevResultsBtnDisabled: function () {
       return this.currentPage <= 1;
     },
+    totalPages: function () {
+      return Math.ceil(this.allSearchResults.length / this.pageSize);
+    },
     nextResultsBtnDisabled: function () {
       return this.currentPage >= this.totalPages;
     },
     rowCount: function () {
       return Math.ceil(this.shownSearchResults.length / this.itemsPerRow);
-    }
+    },
   },
   methods: {
     submitSiteSearch: function (ev) {
@@ -35,10 +37,10 @@ var app = new Vue({
           let count = res.data.site_count,
             siteData = res.data.site_data;
 
-          self.allSiteData = siteData;
+          self.allSearchResults = siteData;
           self.showResultActions = true;
           self.currentPage = count ? 1 : 0;
-          self.totalPages = Math.ceil(count / self.pageSize);
+          // self.totalPages = Math.ceil(count / self.pageSize);
           self.shownSearchResults = siteData.slice(0, self.pageSize);
 
         })
@@ -63,10 +65,17 @@ var app = new Vue({
       let start = (self.currentPage - 1) * self.pageSize,
         stop = self.currentPage * self.pageSize;
 
-      self.shownSearchResults = self.allSiteData.slice(start, stop);
+      self.shownSearchResults = self.allSearchResults.slice(start, stop);
     },
     itemCountInRow: function (index) {
       return this.shownSearchResults.slice((index - 1) * this.itemsPerRow, index * this.itemsPerRow)
+    },
+    updatePageSize: function (ev) {
+      let pageVal = parseInt(ev.target.value);
+      console.log(pageVal);
+      this.pageSize = pageVal;
+      this.currentPage = 1;
+      this.shownSearchResults = this.allSearchResults.slice(0, pageVal);
     }
   },
 
