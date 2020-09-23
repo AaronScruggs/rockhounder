@@ -50,7 +50,7 @@ class SiteSearchView(FormView):
         site_qs = Site.objects.filter(**filter_kwargs).select_related(
             'state', 'county', 'commodity_1', 'commodity_2', 'commodity_3')
 
-        return site_qs
+        return site_qs.order_by('site_name')
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
