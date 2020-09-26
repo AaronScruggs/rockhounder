@@ -40,7 +40,6 @@ var app = new Vue({
           self.allSearchResults = siteData;
           self.showResultActions = true;
           self.currentPage = count ? 1 : 0;
-          // self.totalPages = Math.ceil(count / self.pageSize);
           self.shownSearchResults = siteData.slice(0, self.pageSize);
 
         })
@@ -72,7 +71,6 @@ var app = new Vue({
     },
     updatePageSize: function (ev) {
       let pageVal = parseInt(ev.target.value);
-      console.log(pageVal);
       this.pageSize = pageVal;
       this.currentPage = 1;
       this.shownSearchResults = this.allSearchResults.slice(0, pageVal);

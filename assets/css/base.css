@@ -14,6 +14,10 @@ body {
     margin: 10px 10px 10px 10px;
 }
 
+#siteResults #customizeResults {
+    display: inline-block;
+}
+
 .form-field {
     margin: 5px 0 5px 0;
 }

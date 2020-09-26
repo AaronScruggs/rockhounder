@@ -34,41 +34,44 @@
 
 
     <div id="siteResults">
-        <button class="button" style="margin-top: 10px;" v-on:click.prevent="clearSiteSearchResults"
-                v-show="showResultActions">Clear Results
-        </button>
 
-        <div id="customResults" v-show="showResultActions">
-            <div ref="perPage">
-                <select name="per_page" id="id_per_page" v-on:change="updatePageSize">
-                    <option value="20">20</option>
-                    <option value="40" selected="selected">40</option>
-                    <option value="100">100</option>
-                </select>
+        <div>
+            <button class="button" style="margin-top: 10px;" v-on:click.prevent="clearSiteSearchResults"
+                    v-show="showResultActions">Clear Results
+            </button>
+
+            <div id="customizeResults" v-show="showResultActions">
+                <div ref="perPage">
+                    <select name="per_page" id="id_per_page" v-on:change="updatePageSize">
+                        <option value="20">20 per page</option>
+                        <option value="40" selected="selected">40 per page</option>
+                        <option value="100">100 per page</option>
+                    </select>
+                </div>
             </div>
         </div>
 
         <div class="row" v-for="i in rowCount">
-                <div class="site column" v-for="site in itemCountInRow(i)">
-                    <div class="capitalize">
-                        <strong>[[ site.site_name ]]</strong>
-                    </div>
-                    <div class="capitalize">
-                        [[ site.county ]], [[ site.state ]]
-                    </div>
-                    <div>
-                        Primary Commodities: [[ site.commodity_1 ]]
-                    </div>
-                    <div>
-                        Secondary Commodities: [[ site.commodity_2 ]]
-                    </div>
-                    <div>
-                        Tertiary Commodities: [[ site.commodity_3 ]]
-                    </div>
-                    <div>
-                        <a v-bind:href="site.mrds_url" target="_blank">More Information</a>
-                    </div>
+            <div class="site column" v-for="site in itemCountInRow(i)">
+                <div class="capitalize">
+                    <strong>[[ site.site_name ]]</strong>
                 </div>
+                <div class="capitalize">
+                    [[ site.county ]], [[ site.state ]]
+                </div>
+                <div>
+                    Primary Commodities: [[ site.commodity_1 ]]
+                </div>
+                <div>
+                    Secondary Commodities: [[ site.commodity_2 ]]
+                </div>
+                <div>
+                    Tertiary Commodities: [[ site.commodity_3 ]]
+                </div>
+                <div>
+                    <a v-bind:href="site.mrds_url" target="_blank">More Information</a>
+                </div>
+            </div>
         </div>
 
     </div>
