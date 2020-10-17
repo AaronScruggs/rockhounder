@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView
 
 from mrds.forms import SiteSearchForm
-from mrds.models import Site
+from mrds.models import Site, Commodity
 
 
 class SiteSearchView(FormView):
@@ -52,6 +52,13 @@ class SiteSearchView(FormView):
 
         return site_qs.order_by('site_name')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        commodity_names = Commodity.objects.exclude(name__contains=',').exclude(name='').values_list('name', flat=True)
+        commodity_choices = [{'text': commodity} for commodity in commodity_names]
+        context['commodity_choices'] = commodity_choices
+        return context
+
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
 
@@ -71,3 +78,14 @@ class SiteSearchView(FormView):
     def form_invalid(self, form):
         resp = super().form_invalid(form)
         return resp
+
+
+class CommodityAjaxView(FormView):
+
+    def get(self, request, *args, **kwargs):
+        # data = [{"text": "first", "tiClasses": [ "ti-valid"]}, {"text": "wat", "tiClasses": ["ti-valid"]}]
+        data = [
+            {'text': 'Gold'},
+            {'text': 'Silver'}
+        ]
+        return JsonResponse(data=data, safe=False)

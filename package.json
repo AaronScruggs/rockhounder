@@ -25,5 +25,8 @@
     "webpack": "^4.44.2",
     "webpack-bundle-tracker": "^1.0.0-alpha.1",
     "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "@johmun/vue-tags-input": "^2.1.0"
   }
 }

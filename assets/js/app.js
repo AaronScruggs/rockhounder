@@ -1,16 +1,33 @@
+
+import { VueTagsInput, createTag, createTags } from '@johmun/vue-tags-input';
+
+
 var app = new Vue({
   el: '#app',
   delimiters: ['[[', ']]'],
+  components: {
+    VueTagsInput,
+  },
   data: {
     shownSearchResults: [],
     allSearchResults: [],
     showResultActions: false,
     currentPage: 0,
     pageSize: 40,
-    itemsPerRow: 4
+    itemsPerRow: 4,
+    tag: '',
+    tags: [],
+    autocompleteItems: window.commodity_choices,
   },
   filters: {},
   computed: {
+    filteredItems() {
+      let self = this;
+      return this.autocompleteItems.filter(i => {
+        // debugger;
+        return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
+      });
+    },
     prevResultsBtnDisabled: function () {
       return this.currentPage <= 1;
     },
@@ -23,6 +40,9 @@ var app = new Vue({
     rowCount: function () {
       return Math.ceil(this.shownSearchResults.length / this.itemsPerRow);
     },
+    postTags: function () {
+      return this.tags.map(function(elem) {return elem.text});
+    }
   },
   methods: {
     submitSiteSearch: function (ev) {
@@ -31,6 +51,7 @@ var app = new Vue({
 
       let formData = new FormData(ev.target);
       let submitUrl = f.action;
+      formData.append('tagtest', self.postTags);
       axios
         .post(submitUrl, formData)
         .then(res => {
@@ -52,6 +73,7 @@ var app = new Vue({
       this.showResultActions = false;
     },
     changeResultsPage: function (ev) {
+
       let self = this,
         direction = ev.target.dataset.direction;
 

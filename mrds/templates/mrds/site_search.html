@@ -9,6 +9,7 @@
 </head>
 <body>
 
+
 <div id="app">
 
     <div id="searchIntro">
@@ -19,6 +20,7 @@
     <div>
         <form ref="siteForm" method="post" action="{% url 'site_search' %}" class="form" enctype="multipart/form-data"
               v-on:submit.prevent="submitSiteSearch">
+
             {% for field in form %}
                 <div class="form-field">
                     {{ field.label }}
@@ -26,6 +28,14 @@
                 </div>
 
             {% endfor %}
+            <vue-tags-input
+                    v-model="tag"
+                    :tags="tags"
+                    :autocomplete-items="filteredItems"
+                    @tags-changed="newTags => tags = newTags"
+                    add-on-key="[13, ':', ';']"
+                    add-only-from-autocomplete="true"
+            ></vue-tags-input>
 
             <button type="submit">Submit</button>
             {% csrf_token %}
@@ -88,6 +98,9 @@
 
 </div>
 
+<script>
+  window.commodity_choices = {% autoescape off %}{{ commodity_choices }}{% endautoescape %};
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="{% static 'bundles/main.js' %}"></script>

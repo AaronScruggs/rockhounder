@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from mrds.views import SiteSearchView
+from mrds.views import SiteSearchView, CommodityAjaxView
 
 urlpatterns = [
     path('site-search/', SiteSearchView.as_view(), name='site_search'),
+    path('commodity/', CommodityAjaxView.as_view(), name='commodity'),
     path('admin/', admin.site.urls),
 ]

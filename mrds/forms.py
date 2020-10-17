@@ -16,9 +16,11 @@ class SiteSearchForm(ModelForm):
 
     class Meta:
         model = Site
-        fields = ('site_name', 'county', 'state', 'commodity_1', 'commodity_2', 'commodity_3')
-        labels = {
-            'commodity_1': 'Primary Commodity',
-            'commodity_2': 'Secondary Commodity',
-            'commodity_3': 'Tertiary Commodity',
-        }
+        fields = ('site_name', 'county', 'state',
+                  # 'commodity_1', 'commodity_2', 'commodity_3'
+                  )
+        # labels = {
+        #     'commodity_1': 'Primary Commodity',
+        #     'commodity_2': 'Secondary Commodity',
+        #     'commodity_3': 'Tertiary Commodity',
+        # }
